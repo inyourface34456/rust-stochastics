@@ -18,7 +18,8 @@ pub const NINETY_FIVE_TO_SIGMA: f64 = 1.960;
 pub const NINETY_NINE_TO_SIGMA: f64 = 2.576;
 
 
-/// You can either provide a specific sigma value or use one from the given constants.
+/// Determines, whether the given value matches the given sigma environment of the given data's normal distribution.
+/// You can either provide a specific sigma environment or use one from the given constants.
 /// Please see https://en.wikipedia.org/wiki/Normal_distribution and sigma rooms for further information.
 ///
 /// # Examples
@@ -39,6 +40,23 @@ pub fn matches_sigma_environment(data: &Vec<f64>, sigma_room: f64, to_check: f64
     let average = average(data);
     let sigma = empiric_deviation(data);
 
+    matches_custom_sigma_environment(average, sigma, sigma_room, to_check)
+}
+
+/// Determines, whether the given value matches the given sigma environment using the given µ and σ values.
+/// You can either provide a specific sigma environment or use one from the given constants.
+/// Please see https://en.wikipedia.org/wiki/Normal_distribution and sigma rooms for further information.
+///
+/// # Examples
+///
+/// ```
+/// let sigma = 15.0;
+/// let average = 100.0;
+///
+/// assert_eq!(basic_stochastics::matches_custom_sigma_environment(average, sigma, basic_stochastics::ONE_SIGMA, 110.0), true);
+/// assert_eq!(basic_stochastics::matches_custom_sigma_environment(average, sigma, basic_stochastics::ONE_SIGMA, 120.0), false);
+/// ```
+pub fn matches_custom_sigma_environment(average: f64, sigma: f64, sigma_room: f64, to_check: f64) -> bool {
     ((average - (sigma_room * sigma)) < to_check) && (to_check < (average + (sigma_room * sigma)))
 }
 
@@ -121,11 +139,20 @@ mod tests {
     fn test_sigma_environment() {
         let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 
-        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 3.4), true);
-        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 1.4), true);
-        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 5.0), false);
+        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 3.4), true);
+        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 1.4), true);
+        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 5.0), false);
 
         assert_eq!(::matches_sigma_environment(&data, ::TWO_SIGMA, 3.4), true);
         assert_eq!(::matches_sigma_environment(&data, ::TWO_SIGMA, 5.0), false);
+    }
+
+    #[test]
+    fn test_custom_sigma_environment() {
+        let sigma = 15.0;
+        let average = 100.0;
+
+        assert_eq!(::matches_custom_sigma_environment(average, sigma, ::ONE_SIGMA, 110.0), true);
+        assert_eq!(::matches_custom_sigma_environment(average, sigma, ::ONE_SIGMA, 120.0), false);
     }
 }
