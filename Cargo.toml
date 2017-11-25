@@ -3,6 +3,7 @@ name          = "basic_stochastics"
 version       = "0.1.0"
 authors       = ["phenomax <phenomax@panascais.io"]
 license       = "MIT/Apache-2.0"
+repository    = "https://github.com/phenomax/rust-stochastics.git"
 description   = "A small collection of utilities to make performing basic stochastic calculations more convenient"
 keywords      = ["math", "calculate", "stochastics", "empiric", "variance"]
 
