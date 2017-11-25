@@ -26,20 +26,20 @@ pub const NINETY_NINE_TO_SIGMA: f64 = 2.576;
 /// ```
 /// let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 ///
-/// assert_eq!(::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 3.4), true);
-/// assert_eq!(::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 1.4), true);
-/// assert_eq!(::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 5.0), false);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 3.4), true);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 1.4), true);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, basic_stochastics::ONE_SIGMA, 5.0), false);
 ///
-/// assert_eq!(::matches_sigma_environment(&data, basic_stochastics::TWO_SIGMA, 3.4), true);
-/// assert_eq!(::matches_sigma_environment(&data, basic_stochastics::TWO_SIGMA, 5.0), false);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, basic_stochastics::TWO_SIGMA, 3.4), true);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, basic_stochastics::TWO_SIGMA, 5.0), false);
 ///
-/// assert_eq!(::matches_sigma_environment(&data, 2.576, 3.4), true);
+/// assert_eq!(basic_stochastics::matches_sigma_environment(&data, 2.576, 3.4), true);
 /// ```
-pub fn matches_sigma_environment(data: &Vec<f64>, sigma: f64, to_check: f64) -> bool {
+pub fn matches_sigma_environment(data: &Vec<f64>, sigma_room: f64, to_check: f64) -> bool {
     let average = average(data);
     let sigma = empiric_deviation(data);
 
-    ((average - sigma) < to_check) && (to_check < (average + sigma))
+    ((average - (sigma_room * sigma)) < to_check) && (to_check < (average + (sigma_room * sigma)))
 }
 
 /// Calculates the average of the given vector.
@@ -98,6 +98,7 @@ pub fn empiric_deviation(data: &Vec<f64>) -> f64 {
 
 #[cfg(test)]
 mod tests {
+
     #[test]
     fn test_average() {
         let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
@@ -120,9 +121,9 @@ mod tests {
     fn test_sigma_environment() {
         let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 
-        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 3.4), true);
-        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 1.4), true);
-        assert_eq!(::matches_sigma_environment(&data, ::ONE_SIGMA, 5.0), false);
+        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 3.4), true);
+        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 1.4), true);
+        assert_eq!(::matches_sigma_environment(&data, super::ONE_SIGMA, 5.0), false);
 
         assert_eq!(::matches_sigma_environment(&data, ::TWO_SIGMA, 3.4), true);
         assert_eq!(::matches_sigma_environment(&data, ::TWO_SIGMA, 5.0), false);
