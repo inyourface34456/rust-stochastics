@@ -1,6 +1,6 @@
 [package]
 name          = "basic_stochastics"
-version       = "0.1.0"
+version       = "0.1.1"
 authors       = ["phenomax <phenomax@panascais.io"]
 license       = "MIT/Apache-2.0"
 repository    = "https://github.com/phenomax/rust-stochastics.git"
