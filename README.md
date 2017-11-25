@@ -59,5 +59,16 @@ let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 let result = rust_stochastics::matches_sigma_environment(&data, rust_stochastics::ONE_SIGMA, 3.4); // will be true
 ```
 
+**Important note** 
+
+The given example does not match the [Laplace condition](https://en.wikipedia.org/wiki/De_Moivre%E2%80%93Laplace_theorem)
+so that the given data set cannot be applied cleanly to a normal distribution.
+
+When you want to modulate a custom normal distribution from your data, please ensure that
+
+a) You have enough data
+
+b) σ² > 9 resp. σ > 3
+
 # Contributing
 Feel free to leave a PR of create an issue, if you have any suggestions/bugs to report :)
