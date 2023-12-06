@@ -32,7 +32,7 @@ Please check [here](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rul
 rust_stochastics provides functions to calculate the average value (µ) and the scattering around the average value (σ)
 from any given data set of ```Vec<f64>```
 
-```
+```rust
 let data: Vec<f64> = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 
 let average = rust_stochastics::average(&data);
@@ -44,7 +44,7 @@ we can check, if an IQ of 70 matches the 1σ environment environment.
 
 By looking at the graph, we can see it doesn't (the IQ score of 70 is the lower border value for the 2σ environment).
 
-```
+```rust
 let sigma = 15.0;
 let average = 100.0;
 
@@ -53,7 +53,7 @@ let result = rust_stochastics::matches_custom_sigma_environment(average, sigma, 
 
 Finally we can also calculate µ and σ from a given data set and check, whether a value matches a specific sigma environment, then.
 
-```
+```rust
 let data = vec![1.0, 2.0, 3.0, 4.0, 2.0];
 
 let result = rust_stochastics::matches_sigma_environment(&data, rust_stochastics::ONE_SIGMA, 3.4); // will be true
